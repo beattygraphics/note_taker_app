@@ -36,24 +36,24 @@ module.exports = (app) => {
     });
   });
 
-  // DELETE REQUEST
-  app.delete("/api/notes/:id", (req, res) => {
-    const deleteId = req.params.id;
-    fs.readFile("./db/db.json", "utf8", (err, data) => {
-      if (err) throw err;
-      let notesList = JSON.parse(data);
+  // // DELETE REQUEST
+  // app.delete("/api/notes/:id", (req, res) => {
+  //   const deleteId = req.params.id;
+  //   fs.readFile("./db/db.json", "utf8", (err, data) => {
+  //     if (err) throw err;
+  //     let notesList = JSON.parse(data);
 
-      //Uses unique ID to remove note
-      for (let i = 0; i < notesList.length; i++) {
-        if (notesList[i].id === deleteId) {
-          notesList.splice(i, 1);
-        }
-      }
-      editNote(notesList);
-      console.log(`Note Deleted! ID: ${deleteId}`);
-      res.send(notesList);
-    });
-  });
+  //     //Uses unique ID to remove note
+  //     for (let i = 0; i < notesList.length; i++) {
+  //       if (notesList[i].id === deleteId) {
+  //         notesList.splice(i, 1);
+  //       }
+  //     }
+  //     editNote(notesList);
+  //     console.log(`Note Deleted! ID: ${deleteId}`);
+  //     res.send(notesList);
+  //   });
+  // });
 
 
   app.put("/api/notes/:id", (req, res) => {
