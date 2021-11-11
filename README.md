@@ -1,2 +1,2 @@
-# note_taker_app
-Creates a "Note Taker" application . This app will write and save notes.
+# Express-Note-Taker-App
+A Note taker application that uses Express.js.  It can be used to write and save notes
