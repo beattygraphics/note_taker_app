@@ -1,18 +1,25 @@
 const express = require("express");
-const apiRoutes = require("./routes/apiRoutes");
-const htmlRoutes = require("./routes/htmlRoutes");
+const fs = require("fs");
 
-const PORT = process.env.PORT || 3002;
+
 const app = express();
 
-// MIDDLEWARE
-app.use(express.json());
+//set initial port
+
+const PORT = process.env.PORT || 3001;
+
+app.use(express.static('public'))
+
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
-app.use("/api", apiRoutes);
-app.use("/", htmlRoutes);
+app.use(express.json());
+
+//Routes
+require("./routes/apiRoutes")(app);
+require("./routes/htmlRoutes")(app);
 
 
-app.listen(PORT, () =>
-  console.log(`Express server currently running on port: ${PORT}`)
-);
+
+//listener
+app.listen(PORT, function() {
+  console.log("App listening on PORT: " + PORT);
+});

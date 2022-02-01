@@ -1,89 +1,43 @@
-// DEPENDENCIES
 const fs = require("fs");
-const generateUniqueId = require("generate-unique-id");
 
-const editNote = (updatedNotesList) => {
-  fs.writeFile("./db/db.json", JSON.stringify(updatedNotesList), (err) => {
-    if (err) throw err;
-  });
-};
+const PATH = "./db/db.json";
 
-// ROUTING
-module.exports = (app) => {
-  app.get("/api/notes", (req, res) => {
-    fs.readFile("./db/db.json", "utf8", (err, data) => {
-      if (err) throw err;
-      res.json(JSON.parse(data));
-    });
+module.exports = function (app) {
+  app.get("/api/notes", function (req, res) {
+
+    const notes = JSON.parse(fs.readFileSync(PATH, "utf-8"));
+    res.json(notes);
   });
 
-  // POST REQUEST
-  app.post("/api/notes", (req, res) => {
+  app.post("/api/notes", function (req, res) {
+    
+
+    const notes = JSON.parse(fs.readFileSync(PATH, "utf-8"));
+
     const newNote = req.body;
-    fs.readFile("./db/db.json", "utf8", (err, data) => {
-      if (err) throw err;
-      const notesList = JSON.parse(data);
-      newNote.id = generateUniqueId({ length: 10 });
-      notesList.push(newNote);
 
-      editNote(notesList);
-      console.log(`New Note Added! Title: ${JSON.stringify(
-          newNote.title
-        )}, Text: ${JSON.stringify(newNote.text)}, ID: ${newNote.id}`
-      );
+    newNote.id = notes.length + 1;
 
-      res.send(notesList);
+    notes.push(newNote);
+
+    fs.writeFile(PATH, JSON.stringify(notes), function (err) {
+      if (err) return console.log(err);
     });
+
+    res.json(notes);
   });
 
-  // // DELETE REQUEST
-  // app.delete("/api/notes/:id", (req, res) => {
-  //   const deleteId = req.params.id;
-  //   fs.readFile("./db/db.json", "utf8", (err, data) => {
-  //     if (err) throw err;
-  //     let notesList = JSON.parse(data);
+  app.delete("/api/notes/:id", function (req, res) {
+    const notes = JSON.parse(fs.readFileSync(PATH, "utf-8"));
 
-  //     //Uses unique ID to remove note
-  //     for (let i = 0; i < notesList.length; i++) {
-  //       if (notesList[i].id === deleteId) {
-  //         notesList.splice(i, 1);
-  //       }
-  //     }
-  //     editNote(notesList);
-  //     console.log(`Note Deleted! ID: ${deleteId}`);
-  //     res.send(notesList);
-  //   });
-  // });
+    const noteToDelete = req.params.id - 1;
+    notes.splice(noteToDelete, 1);
 
-
-  app.put("/api/notes/:id", (req, res) => {
-    const editId = req.params.id;
-
-    fs.readFile("./db/db.json", "utf8", (err, data) => {
-      if (err) throw err;
-
-      let notesList = JSON.parse(data);
-      let activeNote = notesList.find((note) => note.id === editId);
-
-
-      if (activeNote) {
-        let updatedNote = {
-          title: req.body.title,
-          text: req.body.text, 
-          id: activeNote.id,
-        };
-
-
-        let targetIndex = notesList.indexOf(activeNote);
-
-        notesList.splice(targetIndex, 1, updatedNote);
-
-        res.sendStatus(204);
-        editNote(notesList);
-        res.json(notesList);
-      } else {
-        res.sendStatus(404);
-      }
+    // Write the file
+    fs.writeFile(PATH, JSON.stringify(notes), function (err) {
+      if (err) return console.log(err);
     });
+
+    res.json(notes);
   });
 };
