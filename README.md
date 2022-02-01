@@ -21,7 +21,7 @@ A simple application that allows you to take and save notes
 
 
 ## Contributing
-Lots and Lots of Googeling.  Will be getting some tutoring help this week to finish the app as I can not get it to fully function.
+Lots and Lots of Googeling.  Will be getting some tutoring help this week to finish the app as I can not get it to fully function.  I revisited this app towards the end of the class.  Had a much easier time getting this to work.  Im happy with the way this turned out.  It is completely functional.
 
 
 ## Links
