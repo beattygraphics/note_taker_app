@@ -27,7 +27,4 @@ Lots and Lots of Googeling.  Will be getting some tutoring help this week to fin
 ## Links
 GitHub Link: (https://github.com/beattygraphics/note_taker_app)
 
-Live Site Link:
-
-(![Screenshot](/assets/11-express-homework-demo-02.png)
-)
+Live Site Link: (https://erinb-note-taker-app.herokuapp.com)
